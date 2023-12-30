@@ -10,8 +10,6 @@ class KeyboardHandler
 public:
 	KeyboardHandler(Head& headInstance) : head(headInstance) {}
 
-	std::vector<int> lastDir = {0, 0};
-
 	void HandleKeyboard() {
 		if(IsKeyDown(KEY_W)) {
 			head.GoRight();
