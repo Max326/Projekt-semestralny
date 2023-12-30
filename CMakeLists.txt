@@ -9,3 +9,9 @@ set(OpenGL_GL_PREFERENCE GLVND)
 file(GLOB SOURCES "src/*.cpp" "*.cpp")
 
 add_executable(MyExecutable ${SOURCES})
+
+# Find Raylib
+find_package(raylib REQUIRED)
+
+# Link Raylib to your executable
+target_link_libraries(MyExecutable PRIVATE raylib)
