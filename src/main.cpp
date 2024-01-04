@@ -14,7 +14,6 @@ int main() {
 
 	// int ball_speed_x = 5;
 	// int ball_speed_y = 0;
-	int ball_radius = 15;
 
 	float timeScale = 0.5;
 
@@ -23,24 +22,30 @@ int main() {
 
 	head.SetSpeed(3);
 
-	head.SetPosX(100);
-	head.SetPosY(100);
+	head.SetPosX(screenWidth/2);
+	head.SetPosY(screenHeight/2);
+
+	head.SetDirX(1);
+	head.SetDirY(0);
+
+	head.bodySize = 20;
 
 	InitWindow(screenWidth, screenHeight, "Snake");
-	SetTargetFPS(60);
+	SetTargetFPS(144);
 
 	while(WindowShouldClose() == false) {
 		// float deltaTime = GetFrameTime() * timeScale;
+
 		BeginDrawing();
 		ClearBackground(BLACK);
 
-		if(head.GetPosX() >= screenWidth - ball_radius / 2 || head.GetPosX() <= ball_radius / 2) {
+		if(head.GetPosX() >= screenWidth - head.bodySize / 2 || head.GetPosX() <= head.bodySize / 2) {
 			// ball_speed_x *= -1;
 			std::cout << "end of field x" << std::endl;
 			head.SetDirX(-head.GetDirX());
 			break;
 		}
-		if(head.GetPosY() >= screenHeight - ball_radius / 2 || head.GetPosY() <= ball_radius / 2) {
+		if(head.GetPosY() >= screenHeight - head.bodySize / 2 || head.GetPosY() <= head.bodySize / 2) {
 			// ball_speed_y *= -1;
 			head.SetDirY(-head.GetDirY());
 			std::cout << "end of field y" << std::endl;
@@ -59,14 +64,18 @@ int main() {
 		}
 		head.Move();
 
+		std::cout << "headposx: " << head.GetPosX() << " headposy: " << head.GetPosY() << "\n";
+
 		// ball_x += ball_speed_x;
 		// ball_y += ball_speed_y;
 
-		DrawRectangle(head.GetPosX(), head.GetPosY(), ball_radius, ball_radius, GREEN);
+		DrawRectangle(head.GetPosX(), head.GetPosY(), head.bodySize, head.bodySize, GREEN);
+
+		DrawGrid(1000, 100);
 
 		EndDrawing();
 
-        WaitTime(0.5);
+		// WaitTime(0.5);
 	}
 
 	CloseWindow();
