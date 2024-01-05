@@ -6,8 +6,13 @@
 #include "KeyboardHandler.h"
 
 int main() {
-	const int screenWidth = 800;
-	const int screenHeight = 600;
+	const int tileSize = 20;
+
+	const int screenCols = 20;
+	const int screenRows = 2;
+
+	const int screenWidth = tileSize * screenCols;
+	const int screenHeight = tileSize * screenRows;
 
 	float timeScale = 0.5;
 
@@ -16,8 +21,8 @@ int main() {
 
 	head.SetSpeed(2);
 
-	head.SetPosX(screenWidth / 2);
-	head.SetPosY(screenHeight / 2);
+	head.SetPosX(0);
+	head.SetPosY(0);
 
 	head.SetDirX(1);
 	head.SetDirY(0);
@@ -67,8 +72,6 @@ int main() {
 		}
 
 		EndDrawing();
-
-		// WaitTime(0.5);
 	}
 
 	CloseWindow();
