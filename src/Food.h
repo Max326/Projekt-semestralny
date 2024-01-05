@@ -4,8 +4,5 @@
 class Food : public Block
 {
 public:
-    Food(int x, int y){
-        SetPosX(x);
-        SetPosY(y);
-    }
+    Food() = default;
 };
