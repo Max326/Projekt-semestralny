@@ -52,7 +52,7 @@ public:
 			}
 
 			DrawBlock(food.GetPosX(), food.GetPosY(), tileSize, RED);
-			std::cout << "foodposx: " << food.GetPosX() << " foodposy: " << food.GetPosY() << "\n";
+			// std::cout << "foodposx: " << food.GetPosX() << " foodposy: " << food.GetPosY() << "\n";
 
 			if(head.GetPosX() > screenWidth - head.bodySize / 4 || head.GetPosX() < -head.bodySize / 4) {
 				std::cout << "end of field x" << std::endl;

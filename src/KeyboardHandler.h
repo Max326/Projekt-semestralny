@@ -1,6 +1,7 @@
 #include <raylib.h>
 
 #include <vector>
+#include <iostream>
 
 #pragma once
 #include "Head.h"
