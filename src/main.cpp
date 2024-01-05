@@ -4,12 +4,15 @@
 
 #include "Head.h"
 #include "KeyboardHandler.h"
+#include "Food.h"
+
+#include "RaylibUtils.h"
 
 int main() {
 	const int tileSize = 20;
 
 	const int screenCols = 20;
-	const int screenRows = 2;
+	const int screenRows = 20;
 
 	const int screenWidth = tileSize * screenCols;
 	const int screenHeight = tileSize * screenRows;
@@ -32,6 +35,8 @@ int main() {
 	int columns = screenWidth / head.bodySize;
 	int rows = screenHeight / head.bodySize;
 
+    int foodX, foodY;
+
 	InitWindow(screenWidth, screenHeight, "Snake");
 	SetTargetFPS(60);
 
@@ -41,12 +46,18 @@ int main() {
 		BeginDrawing();
 		ClearBackground(DARKGRAY);
 
-		if(head.GetPosX() > screenWidth - head.bodySize || head.GetPosX() < 0) {
+        foodX = GetRandomValue(0, columns-1);
+        foodY = GetRandomValue(0, rows-1);
+
+        Food food(foodX, foodY);
+        DrawBlock(food.GetPosX(), food.GetPosY(), tileSize, RED);
+
+		if(head.GetPosX() > screenWidth - head.bodySize/4 || head.GetPosX() < -head.bodySize/4) {
 			std::cout << "end of field x" << std::endl;
 			head.SetDirX(-head.GetDirX());
 			break;
 		}
-		if(head.GetPosY() > screenHeight - head.bodySize || head.GetPosY() < 0) {
+		if(head.GetPosY() > screenHeight - head.bodySize/4 || head.GetPosY() < -head.bodySize/4) {
 			head.SetDirY(-head.GetDirY());
 			std::cout << "end of field y" << std::endl;
 			break;
@@ -58,6 +69,9 @@ int main() {
 		}
 		if(IsKeyDown(KEY_F)) {
 			head.SetSpeed(0);
+		}
+        if(IsKeyDown(KEY_G)) {
+			head.SetSpeed(head.GetSpeed()+0.1f);
 		}
 		head.Move();
 

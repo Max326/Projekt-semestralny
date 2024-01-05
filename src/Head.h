@@ -1,9 +1,10 @@
 #pragma once
 
-class Head
+#include "Block.h"
+
+class Head: public Block
 {
 private:
-	int posX, posY;
 	float speed;
 	int dirX, dirY;
 
@@ -11,12 +12,7 @@ public:
 	int bodySize;
 
 	void SetSpeed(float newSpeed) { speed = newSpeed; }
-
-	int GetPosX() { return posX; };
-	int GetPosY() { return posY; };
-
-	void SetPosX(int x) { posX = x; };
-	void SetPosY(int y) { posY = y; };
+    float GetSpeed(){return speed;};
 
 	int GetDirX() { return dirX; };
 	int GetDirY() { return dirY; };
