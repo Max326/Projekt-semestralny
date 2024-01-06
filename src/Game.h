@@ -17,13 +17,13 @@ public:
 	void Start() {
 		const int tileSize = 20;  // TODO fix this not being scalable
 
-		const int screenCols = 20;
-		const int screenRows = 20;
+		const int screenCols = 15;
+		const int screenRows = 15;
 
 		const int screenWidth = tileSize * screenCols;
 		const int screenHeight = tileSize * screenRows;
 
-		float timeScale = 0.5;
+		double frameTime = 0.1;
 
 		std::unique_ptr<Head> head = std::make_unique<Head>();
 
@@ -31,6 +31,8 @@ public:
 		Food food;
 
 		Body body;
+
+		head->bodySize = tileSize;
 
 		head->SetPosX(40);
 		head->SetPosY(0);
@@ -40,21 +42,10 @@ public:
 		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(20, 0)));
 		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(0, 0)));
 
-		// empManager.addEngineer(std::make_unique<Engineer>());
-		// void EmployeeManager::addEngineer(std::unique_ptr<Engineer> engineer) {
-		// 	engineer->print();
-		// 	engineers.push_back(std::move(engineer));
-		// }
-		// std::vector<std::unique_ptr<Engineer>> engineers;
-
-		// body.bodyBlocks = {head, block1, block2};
-
 		head->SetSpeed(20);
 
 		head->SetDirX(1);
 		head->SetDirY(0);
-
-		head->bodySize = tileSize;
 
 		InitWindow(screenWidth, screenHeight, "Snake");
 		SetTargetFPS(60);
@@ -62,8 +53,6 @@ public:
 		UpdateFood(food, tileSize, screenCols, screenRows);
 
 		while(WindowShouldClose() == false) {
-			// float deltaTime = GetFrameTime() * timeScale;
-
 			BeginDrawing();
 			ClearBackground(DARKGRAY);
 
@@ -98,7 +87,7 @@ public:
 				head->SetSpeed(head->GetSpeed() + 0.1f);
 			}
 
-			if(eventTriggered(0.1)) {
+			if(eventTriggered(frameTime)) {
 				body.UpdateSnake();
 				// head->Move();
 				// // body.bodyBlocks[0] = head;
@@ -121,9 +110,9 @@ public:
 
 			std::cout << "headposx: " << head->GetPosX() << " headposy: " << head->GetPosY() << "\n";
 
-            if (body.CollisionCheck()){
-                break;
-            }
+			if(body.CollisionCheck()) {
+				break;
+			}
 
 			body.DrawSnake(tileSize);
 			// DrawSquare(head->GetPosX(), head->GetPosY(), tileSize, GREEN);
