@@ -1,20 +1,39 @@
 #pragma once
 
-#include <vector>
+#include <raylib.h>
+
 #include <iostream>
+#include <vector>
 
 #include "Block.h"
+#include "RaylibUtils.h"
 
 class Body : public Block
 {
-    std::vector<Block> bodyBlocks;
+public:
+	std::vector<Block> bodyBlocks;
 
-    // TODO: implement a list of snake elements by the bodyblocks vector of vector2s
-    // TODO: make a queue of direction vectors change the positions of blocks (function for that)
+public:
+	void UpdateSnake() {
+		if(!bodyBlocks.empty()) {
+			auto it1 = bodyBlocks.rbegin();
+			auto it2 = std::next(bodyBlocks.rbegin());
 
-    void UpdateSnake(std::vector<Block> &bodyBlocks){
-        for(int i = 0; i < bodyBlocks.size(); i++){
-            std::cout << "dupa\n";   
-        }
-    }
+			while(it2 != bodyBlocks.rend()) {
+				*it1 = *it2;
+				++it1;
+				++it2;
+			}
+		}
+	}
+
+	void DrawSnake(const int tileSize) {
+		for(auto it = bodyBlocks.begin(); it != bodyBlocks.end(); ++it) {
+			if(it == bodyBlocks.begin()) {
+				DrawSquare(it->GetPosX(), it->GetPosY(), tileSize, GREEN);
+			} else {
+				DrawSquare(it->GetPosX(), it->GetPosY(), tileSize, DARKGREEN);
+			}
+		}
+	}
 };
