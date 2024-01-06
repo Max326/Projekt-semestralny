@@ -25,14 +25,15 @@ public:
 
 		float timeScale = 0.5;
 
-		// Head head;
-		std::unique_ptr<Head> head;
+		std::unique_ptr<Head> head = std::make_unique<Head>();
 
-		// KeyboardHandler keyboardHandler(std::move(head));
 		KeyboardHandler keyboardHandler;
 		Food food;
 
 		Body body;
+
+		head->SetPosX(40);
+		head->SetPosY(0);
 
 		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(0, 0)));	// TODO this maybe can be changed
 		head = body.UpdateHead(std::move(head));
@@ -49,9 +50,6 @@ public:
 		// body.bodyBlocks = {head, block1, block2};
 
 		head->SetSpeed(20);
-
-		head->SetPosX(40);
-		head->SetPosY(0);
 
 		head->SetDirX(1);
 		head->SetDirY(0);
@@ -89,6 +87,7 @@ public:
 			}
 
 			head = keyboardHandler.HandleKeyboard(std::move(head));
+
 			if(IsKeyDown(KEY_SPACE)) {
 				break;
 			}
@@ -99,15 +98,32 @@ public:
 				head->SetSpeed(head->GetSpeed() + 0.1f);
 			}
 
-			if(eventTriggered(0.5)) {
+			if(eventTriggered(0.1)) {
 				body.UpdateSnake();
+				// head->Move();
+				// // body.bodyBlocks[0] = head;
+				// // body.bodyBlocks[0] = std::move(head);
+				// head = body.UpdateHead(std::move(head));
+				if(!head) {
+					std::cerr << "Error: head is null before Move" << std::endl;
+					break;
+				}
 				head->Move();
-				// body.bodyBlocks[0] = head;
-				// body.bodyBlocks[0] = std::move(head);
-			    head = body.UpdateHead(std::move(head));
+
+				head = body.UpdateHead(std::move(head));
+				if(!head) {
+					std::cerr << "Error: head is null after UpdateHead" << std::endl;
+					break;
+				}
+
+				std::cout << "gituwsko" << std::endl;
 			}
 
-			// std::cout << "headposx: " << head->GetPosX() << " headposy: " << head->GetPosY() << "\n";
+			std::cout << "headposx: " << head->GetPosX() << " headposy: " << head->GetPosY() << "\n";
+
+            if (body.CollisionCheck()){
+                break;
+            }
 
 			body.DrawSnake(tileSize);
 			// DrawSquare(head->GetPosX(), head->GetPosY(), tileSize, GREEN);

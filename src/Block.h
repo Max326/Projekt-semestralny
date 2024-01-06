@@ -28,6 +28,8 @@ public:
     
 	Block& operator=(Block&& other) = default;
 
+    virtual ~Block() = default;
+
 	int GetPosX() const { return posX; };
 	int GetPosY() const { return posY; };
 
