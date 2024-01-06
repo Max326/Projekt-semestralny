@@ -26,7 +26,7 @@ public:
 		KeyboardHandler keyboardHandler(head);
 		Food food;
 
-		head.SetSpeed(2);
+		head.SetSpeed(20);
 
 		head.SetPosX(0);
 		head.SetPosY(0);
@@ -39,7 +39,7 @@ public:
 		InitWindow(screenWidth, screenHeight, "Snake");
 		SetTargetFPS(60);
 
-        UpdateFood(food, tileSize, screenCols, screenRows);
+		UpdateFood(food, tileSize, screenCols, screenRows);
 
 		while(WindowShouldClose() == false) {
 			// float deltaTime = GetFrameTime() * timeScale;
@@ -75,9 +75,12 @@ public:
 			if(IsKeyDown(KEY_G)) {
 				head.SetSpeed(head.GetSpeed() + 0.1f);
 			}
-			head.Move();
 
-			// std::cout << "headposx: " << head.GetPosX() << " headposy: " << head.GetPosY() << "\n";
+			if(eventTriggered(0.2)) {
+				head.Move();
+			}
+
+			std::cout << "headposx: " << head.GetPosX() << " headposy: " << head.GetPosY() << "\n";
 
 			DrawRectangle(head.GetPosX(), head.GetPosY(), head.bodySize, head.bodySize, GREEN);
 
@@ -96,5 +99,17 @@ public:
 	void UpdateFood(Food& food, const int tile, const int cols, const int rows) {
 		food.SetPosX(GetRandomValue(0, cols - 1) * tile);
 		food.SetPosY(GetRandomValue(0, rows - 1) * tile);
+	}
+
+	double lastUpdateTime;
+
+	bool eventTriggered(double interval) {
+		double currentTime = GetTime();
+
+		if(currentTime - lastUpdateTime >= interval) {
+			lastUpdateTime = currentTime;
+			return true;
+		}
+		return false;
 	}
 };
