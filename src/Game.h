@@ -47,6 +47,8 @@ public:
         Block block1(Vector2(20, 0));
         Block block2(Vector2(0, 0));
 
+        body.bodyBlocks = {head, block1, block2};
+
 		while(WindowShouldClose() == false) {
 			// float deltaTime = GetFrameTime() * timeScale;
 
@@ -55,6 +57,7 @@ public:
 
 			if(head.GetPosX() == food.GetPosX() && head.GetPosY() == food.GetPosY()) {
 				UpdateFood(food, tileSize, screenCols, screenRows);
+                
 			}
 
 			DrawSquare(food.GetPosX(), food.GetPosY(), tileSize, RED);
@@ -82,14 +85,13 @@ public:
 				head.SetSpeed(head.GetSpeed() + 0.1f);
 			}
 
-			body.bodyBlocks = {head, block1, block2};
-
-			if(eventTriggered(0.2)) {
+			if(eventTriggered(0.5)) {
 				body.UpdateSnake();
 				head.Move();
+                body.bodyBlocks[0] = head;
 			}
 
-			std::cout << "headposx: " << head.GetPosX() << " headposy: " << head.GetPosY() << "\n";
+			// std::cout << "headposx: " << head.GetPosX() << " headposy: " << head.GetPosY() << "\n";
 
             body.DrawSnake(tileSize);
 			// DrawSquare(head.GetPosX(), head.GetPosY(), tileSize, GREEN);

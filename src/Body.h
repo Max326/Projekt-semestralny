@@ -20,10 +20,18 @@ public:
 			auto it2 = std::next(bodyBlocks.rbegin());
 
 			while(it2 != bodyBlocks.rend()) {
+				std::cout << "bifor: it1 getposx: " << it1->GetPosX() << ", it1 getposy: " << it1->GetPosY() << std::endl;
+				std::cout << "bifor: it2 getposx: " << it2->GetPosX() << ", it2 getposy: " << it2->GetPosY() << std::endl;
 				*it1 = *it2;
+
+				std::cout << "after: it1 getposx: " << it1->GetPosX() << ", it1 getposy: " << it1->GetPosY() << std::endl;
+				std::cout << "after: it2 getposx: " << it2->GetPosX() << ", it2 getposy: " << it2->GetPosY() << std::endl;
+
 				++it1;
 				++it2;
 			}
+
+			std::cout << "koniec bodybloksa\n";
 		}
 	}
 
