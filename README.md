@@ -2,7 +2,8 @@
 
 This is a Snake Game repository. It's a final project made for a C++ object oriented programming course.
 
-It was written using the Raylib library, available [here](https://www.raylib.com/)
+It was written using the Raylib library, available [here](https://www.raylib.com/).
+
 [Here](https://github.com/raysan5/raylib) is it's github repository.
 
 ## How to run
