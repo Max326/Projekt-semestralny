@@ -18,7 +18,7 @@ public:
 public:
 	void UpdateSnake() {
 		if(bodyBlocks.size() > 1) {
-			std::cout << "poczatek bodybloksa\n";
+			// std::cout << "poczatek bodybloksa\n";
 
 			auto it1 = bodyBlocks.rbegin();
 

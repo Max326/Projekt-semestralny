@@ -14,7 +14,7 @@ class Game
 {
 public:
 	void Start() {
-		const int tileSize = 20;  // TODO fix this not being scalable
+		const int tileSize = 30;
 
 		const int screenCols = 20;
 		const int screenRows = 20;
@@ -36,7 +36,7 @@ public:
 		head->SetPosX(2 * tileSize);
 		head->SetPosY(0);
 
-		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(0, 0)));	// TODO this maybe can be changed
+		body.bodyBlocks.push_back(std::make_unique<Block>());
 		head = body.UpdateHead(std::move(head));
 		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(tileSize, 0)));
 		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(0, 0)));
@@ -107,7 +107,7 @@ public:
 				head = body.UpdateHead(std::move(head));
 			}
 
-			std::cout << "headposx: " << head->GetPosX() << " headposy: " << head->GetPosY() << "\n";
+			// std::cout << "headposx: " << head->GetPosX() << " headposy: " << head->GetPosY() << "\n";
 
 			if(body.CollisionCheck()) {
 				std::cout << "Collision detected.\n";
