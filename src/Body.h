@@ -2,7 +2,6 @@
 
 #include <raylib.h>
 
-#include <iostream>
 #include <memory>
 #include <vector>
 
@@ -35,7 +34,6 @@ public:
 	bool FoodEaten(Block food) {
 		for(int i = 0; i < bodyBlocks.size(); i++) {
 			if(bodyBlocks[i]->GetPosX() == food.GetPosX() && bodyBlocks[i]->GetPosY() == food.GetPosY()) {
-				std::cout<< "omnomnom\n";
 				return true;
 			}
 		}
@@ -52,37 +50,25 @@ public:
 	// 	}
 	// }
 
-	void ElongateSnake() {
+	void ElongateSnake() { //TODO check this
 		if(!bodyBlocks.empty()) {
 			const auto &lastBlock = bodyBlocks.back();
 			bodyBlocks.push_back(std::make_shared<Block>(*lastBlock));
 		}
 	}
 
-	std::unique_ptr<Head> UpdateHead(std::unique_ptr<Head> head) {
+	std::unique_ptr<Head> UpdateHead(std::unique_ptr<Head> head) { //TODO maybe try inserting the head into the vector
 		if(!bodyBlocks.empty()) {
 			bodyBlocks[0]->SetPosX(head->GetPosX());
 			bodyBlocks[0]->SetPosY(head->GetPosY());
 		}
 
-		return std::move(head);	 // Return the updated head
+		return std::move(head);
 	}
 
-	// void DrawSnake(const int tileSize) {
-	// 	for(auto it = bodyBlocks.begin(); it != bodyBlocks.end(); ++it) {
-	// 		if(it == bodyBlocks.begin()) {
-	// 			DrawSquare((*it)->GetPosX(), (*it)->GetPosY(), tileSize, GREEN);
-	// 		} else {
-	// 			DrawSquare((*it)->GetPosX(), (*it)->GetPosY(), tileSize, DARKGREEN);
-	// 		}
-	// 	}
-	// }
-
 	void DrawSnake(const int tileSize) {
-		for(const auto &block: bodyBlocks) {
-			if(block) {
-				DrawSquare(block->GetPosX(), block->GetPosY(), tileSize, (block == bodyBlocks.front()) ? GREEN : DARKGREEN);
-			}
+		for(auto it = bodyBlocks.begin(); it != bodyBlocks.end(); ++it) {
+			DrawSquare((*it)->GetPosX(), (*it)->GetPosY(), tileSize, (*it == bodyBlocks.front()) ? GREEN : DARKGREEN);
 		}
 	}
 

@@ -14,9 +14,9 @@ class Game
 {
 public:
 	// settings
-	const int tileSize = 30;
+	const int tileSize = 30; // this defines the size of the window (it scales with this)
 
-	const int screenCols = 15;
+	const int screenCols = 15; 
 	const int screenRows = 15;
 
 	int offsetTiles = 4;
@@ -32,6 +32,7 @@ public:
 
 public:
 	void Start() {	// TODO std::visit
+		//initial setup
 		std::unique_ptr<Head> head = std::make_unique<Head>();
 
 		KeyboardHandler keyboardHandler;
@@ -44,7 +45,7 @@ public:
 		head->SetPosY(offset);
 
 		body.bodyBlocks.push_back(std::make_unique<Block>());
-		head = body.UpdateHead(std::move(head));
+		head = body.UpdateHead(std::move(head)); //TODO try changing that
 		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(offset + tileSize, offset)));
 		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(offset, offset)));
 
@@ -60,16 +61,8 @@ public:
 
 		while(WindowShouldClose() == false) {
 			BeginDrawing();
-			ClearBackground(LIME);
 
-			DrawRectangle(0, 0, 2 * offset + screenWidth, offset, DARKBLUE);
-			DrawRectangle(0, offset + screenHeight, 2 * offset + screenWidth, offset, DARKBLUE);
-			DrawRectangle(0, 0, offset, 2 * offset + screenHeight, DARKBLUE);
-			DrawRectangle(offset + screenWidth, 0, offset, 2 * offset + screenHeight, DARKBLUE);
-
-			DrawRectangleLinesEx(Rectangle {float(offset - 5), float(offset - 5), float(screenWidth + 10), float(screenHeight + 10)}, 5, DARKGREEN);  // frame
-			DrawText("Snake game", offset + 2*tileSize, tileSize, tileSize * 2, SKYBLUE);
-			DrawText(TextFormat("%i", score), offset + (screenCols/2)*tileSize, offset + screenHeight + tileSize, tileSize * 2, SKYBLUE);
+			DrawGUI();
 
 			if(body.FoodEaten(food)) {
 				UpdateFood(food);
@@ -94,12 +87,6 @@ public:
 			if(IsKeyDown(KEY_SPACE)) {
 				break;
 			}
-			if(IsKeyDown(KEY_F)) {
-				head->SetSpeed(0);
-			}
-			if(IsKeyDown(KEY_G)) {
-				head->SetSpeed(head->GetSpeed() + 0.1f);
-			}
 
 			if(eventTriggered(frameTime)) {
 				head->ResetTurn();
@@ -109,8 +96,6 @@ public:
 
 				head = body.UpdateHead(std::move(head));
 			}
-
-			// std::cout << "headposx: " << head->GetPosX() << " headposy: " << head->GetPosY() << "\n";
 
 			if(body.CollisionCheck()) {
 				std::cout << "Collision detected.\n";
@@ -125,10 +110,22 @@ public:
 			// 		DrawRectangleLines(i * tileSize, j * tileSize, tileSize, tileSize, GRAY);
 			// 	}
 			// }
+
 			EndDrawing();
 		}
 
 		CloseWindow();
+	}
+
+	void DrawGUI() {
+		ClearBackground(LIME);
+		DrawRectangle(0, 0, 2 * offset + screenWidth, offset, DARKBLUE);
+		DrawRectangle(0, offset + screenHeight, 2 * offset + screenWidth, offset, DARKBLUE);
+		DrawRectangle(0, 0, offset, 2 * offset + screenHeight, DARKBLUE);
+		DrawRectangle(offset + screenWidth, 0, offset, 2 * offset + screenHeight, DARKBLUE);
+		DrawRectangleLinesEx(Rectangle {float(offset - 5), float(offset - 5), float(screenWidth + 10), float(screenHeight + 10)}, 5, DARKGREEN);  // frame
+		DrawText("Snake game", offset + 2 * tileSize, tileSize, tileSize * 2, SKYBLUE);
+		DrawText(TextFormat("%i", score), offset + (screenCols / 2) * tileSize, offset + screenHeight + tileSize, tileSize * 2, SKYBLUE);
 	}
 
 	void UpdateFood(Block &food) {
