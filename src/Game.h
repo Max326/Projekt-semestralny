@@ -17,8 +17,8 @@ public:
 	void Start() {
 		const int tileSize = 20;  // TODO fix this not being scalable
 
-		const int screenCols = 15;
-		const int screenRows = 15;
+		const int screenCols = 20;
+		const int screenRows = 20;
 
 		const int screenWidth = tileSize * screenCols;
 		const int screenHeight = tileSize * screenRows;
@@ -34,15 +34,15 @@ public:
 
 		head->bodySize = tileSize;
 
-		head->SetPosX(40);
+		head->SetPosX(2 * tileSize);
 		head->SetPosY(0);
 
 		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(0, 0)));	// TODO this maybe can be changed
 		head = body.UpdateHead(std::move(head));
-		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(20, 0)));
+		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(tileSize, 0)));
 		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(0, 0)));
 
-		head->SetSpeed(20);
+		head->SetSpeed(tileSize);
 
 		head->SetDirX(1);
 		head->SetDirY(0);
@@ -54,7 +54,7 @@ public:
 
 		while(WindowShouldClose() == false) {
 			BeginDrawing();
-			ClearBackground(DARKGRAY);
+			ClearBackground(LIME);
 
 			if(head->GetPosX() == food.GetPosX() && head->GetPosY() == food.GetPosY()) {
 				UpdateFood(food, tileSize, screenCols, screenRows);
@@ -88,40 +88,28 @@ public:
 			}
 
 			if(eventTriggered(frameTime)) {
+				head->ResetTurn();
 				body.UpdateSnake();
-				// head->Move();
-				// // body.bodyBlocks[0] = head;
-				// // body.bodyBlocks[0] = std::move(head);
-				// head = body.UpdateHead(std::move(head));
-				if(!head) {
-					std::cerr << "Error: head is null before Move" << std::endl;
-					break;
-				}
+
 				head->Move();
 
 				head = body.UpdateHead(std::move(head));
-				if(!head) {
-					std::cerr << "Error: head is null after UpdateHead" << std::endl;
-					break;
-				}
-
-				std::cout << "gituwsko" << std::endl;
 			}
 
 			std::cout << "headposx: " << head->GetPosX() << " headposy: " << head->GetPosY() << "\n";
 
 			if(body.CollisionCheck()) {
+				std::cout << "Collision detected.\n";
 				break;
 			}
 
 			body.DrawSnake(tileSize);
-			// DrawSquare(head->GetPosX(), head->GetPosY(), tileSize, GREEN);
 
-			for(int i = 0; i < screenCols; i++) {
-				for(int j = 0; j < screenRows; j++) {
-					DrawRectangleLines(i * tileSize, j * tileSize, tileSize, tileSize, GRAY);
-				}
-			}
+			// for(int i = 0; i < screenCols; i++) {
+			// 	for(int j = 0; j < screenRows; j++) {
+			// 		DrawRectangleLines(i * tileSize, j * tileSize, tileSize, tileSize, GRAY);
+			// 	}
+			// }
 
 			EndDrawing();
 		}

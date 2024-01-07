@@ -3,6 +3,4 @@
 #include "Block.h"
 class Food : public Block
 {
-public:
-    Food() = default;
 };

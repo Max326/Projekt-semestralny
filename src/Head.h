@@ -2,7 +2,7 @@
 
 #include "Block.h"
 
-class Head: public Block
+class Head : public Block
 {
 private:
 	float speed;
@@ -10,9 +10,10 @@ private:
 
 public:
 	int bodySize;
+	bool turnMade;
 
 	void SetSpeed(float newSpeed) { speed = newSpeed; }
-    float GetSpeed(){return speed;};
+	float GetSpeed() { return speed; };
 
 	int GetDirX() { return dirX; };
 	int GetDirY() { return dirY; };
@@ -20,21 +21,37 @@ public:
 	void SetDirX(int directionX) { dirX = directionX; }
 	void SetDirY(int directionY) { dirY = directionY; }
 
+	void ResetTurn() {
+		turnMade = false;
+	}
+
 	void GoRight() {
-		dirX = 1;
-		dirY = 0;
+		if(!turnMade) {
+			dirX = 1;
+			dirY = 0;
+			turnMade = true;
+		}
 	}
 	void GoLeft() {
-		dirX = -1;
-		dirY = 0;
+		if(!turnMade) {
+			dirX = -1;
+			dirY = 0;
+			turnMade = true;
+		}
 	}
 	void GoDown() {
-		dirX = 0;
-		dirY = 1;
+		if(!turnMade) {
+			dirX = 0;
+			dirY = 1;
+			turnMade = true;
+		}
 	}
 	void GoUp() {
-		dirX = 0;
-		dirY = -1;
+		if(!turnMade) {
+			dirX = 0;
+			dirY = -1;
+			turnMade = true;
+		}
 	}
 
 	void Move() {
