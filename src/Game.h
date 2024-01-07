@@ -13,63 +13,68 @@
 class Game
 {
 public:
-	void Start() {
-		const int tileSize = 30;
+	// settings
+	const int tileSize = 30;
 
-		const int screenCols = 20;
-		const int screenRows = 20;
+	const int screenCols = 15;
+	const int screenRows = 15;
 
-		const int screenWidth = tileSize * screenCols;
-		const int screenHeight = tileSize * screenRows;
+	int offsetTiles = 4;
+	int offset = offsetTiles * tileSize;  // for scalability
 
-		double frameTime = 0.1;
+	const int screenWidth = tileSize * screenCols;
+	const int screenHeight = tileSize * screenRows;
 
+	double frameTime = 0.1;
+	double lastUpdateTime;
+
+public:
+	void Start() {	// TODO std::visit
 		std::unique_ptr<Head> head = std::make_unique<Head>();
 
 		KeyboardHandler keyboardHandler;
 		Block food;
-
 		Body body;
 
 		head->bodySize = tileSize;
 
-		head->SetPosX(2 * tileSize);
-		head->SetPosY(0);
+		head->SetPosX(offset + 2 * tileSize);
+		head->SetPosY(offset);
 
 		body.bodyBlocks.push_back(std::make_unique<Block>());
 		head = body.UpdateHead(std::move(head));
-		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(tileSize, 0)));
-		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(0, 0)));
+		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(offset + tileSize, offset)));
+		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(offset, offset)));
 
 		head->SetSpeed(tileSize);
 
 		head->SetDirX(1);
 		head->SetDirY(0);
 
-		InitWindow(screenWidth, screenHeight, "Snake");
+		InitWindow(2 * offset + screenWidth, 2 * offset + screenHeight, "Snake");
 		SetTargetFPS(60);
 
-		UpdateFood(food, tileSize, screenCols, screenRows);
+		UpdateFood(food);
 
 		while(WindowShouldClose() == false) {
 			BeginDrawing();
 			ClearBackground(LIME);
 
-			if (body.FoodEaten(food)){
-				UpdateFood(food, tileSize, screenCols, screenRows);
+			DrawRectangleLinesEx(Rectangle {float(offset - 5), float(offset - 5), float(screenWidth + 10), float(screenHeight + 10)}, 5, DARKGREEN);  // frame
+
+			if(body.FoodEaten(food)) {
+				UpdateFood(food);
 				body.ElongateSnake();
 			}
 
 			DrawSquare(food.GetPosX(), food.GetPosY(), tileSize, RED);
 			// std::cout << "foodposx: " << food.GetPosX() << " foodposy: " << food.GetPosY() << "\n";
 
-			if(head->GetPosX() > screenWidth - tileSize / 4 || head->GetPosX() < -tileSize / 4) {
+			if(head->GetPosX() > offset + screenWidth - tileSize || head->GetPosX() < offset - tileSize / 4) {
 				std::cout << "end of field x" << std::endl;
-				head->SetDirX(-head->GetDirX());
 				break;
 			}
-			if(head->GetPosY() > screenHeight - tileSize / 4 || head->GetPosY() < -tileSize / 4) {
-				head->SetDirY(-head->GetDirY());
+			if(head->GetPosY() > offset + screenHeight - tileSize || head->GetPosY() < offset - tileSize / 4) {
 				std::cout << "end of field y" << std::endl;
 				break;
 			}
@@ -104,24 +109,22 @@ public:
 
 			body.DrawSnake(tileSize);
 
+			// grid
 			// for(int i = 0; i < screenCols; i++) {
 			// 	for(int j = 0; j < screenRows; j++) {
 			// 		DrawRectangleLines(i * tileSize, j * tileSize, tileSize, tileSize, GRAY);
 			// 	}
 			// }
-
 			EndDrawing();
 		}
 
 		CloseWindow();
 	}
 
-	void UpdateFood(Block &food, const int tile, const int cols, const int rows) {
-		food.SetPosX(GetRandomValue(0, cols - 1) * tile);
-		food.SetPosY(GetRandomValue(0, rows - 1) * tile);
+	void UpdateFood(Block &food) {
+		food.SetPosX(GetRandomValue(offsetTiles, offsetTiles + screenCols - 1) * tileSize);
+		food.SetPosY(GetRandomValue(offsetTiles, offsetTiles + screenRows - 1) * tileSize);
 	}
-
-	double lastUpdateTime;
 
 	bool eventTriggered(double interval) {
 		double currentTime = GetTime();
