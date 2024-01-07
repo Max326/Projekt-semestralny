@@ -55,14 +55,23 @@ public:
 		}
 	}
 
-	std::unique_ptr<Head> UpdateHead(std::unique_ptr<Head> head) { //TODO maybe try inserting the head into the vector
-		if(!bodyBlocks.empty()) {
-			bodyBlocks[0]->SetPosX(head->GetPosX());
-			bodyBlocks[0]->SetPosY(head->GetPosY());
-		}
+	// std::unique_ptr<Head> UpdateHead(std::unique_ptr<Head> head) { //TODO maybe try inserting the head into the vector
+	// 	if(!bodyBlocks.empty()) {
+	// 		bodyBlocks[0]->SetPosX(head->GetPosX());
+	// 		bodyBlocks[0]->SetPosY(head->GetPosY());
+	// 	}
 
-		return std::move(head);
-	}
+	// 	return std::move(head);
+	// }
+
+	// std::unique_ptr<Head> UpdateHead(std::unique_ptr<Head> head) { //TODO maybe try inserting the head into the vector
+	// 	if(!bodyBlocks.empty()) {
+	// 		bodyBlocks[0]->SetPosX(head->GetPosX());
+	// 		bodyBlocks[0]->SetPosY(head->GetPosY());
+	// 	}
+
+	// 	return std::move(head);
+	// }
 
 	void DrawSnake(const int tileSize) {
 		for(auto it = bodyBlocks.begin(); it != bodyBlocks.end(); ++it) {

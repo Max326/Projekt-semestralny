@@ -32,8 +32,13 @@ public:
 
 public:
 	void Start() {	// TODO std::visit
-		//initial setup
-		std::unique_ptr<Head> head = std::make_unique<Head>();
+		//initial setup done here
+
+		// first approach for the head object
+		// std::unique_ptr<Head> head = std::make_unique<Head>();
+		
+		// second approach
+		std::shared_ptr<Head> head = std::make_shared<Head>();
 
 		KeyboardHandler keyboardHandler;
 		Block food;
@@ -44,8 +49,12 @@ public:
 		head->SetPosX(offset + 2 * tileSize);
 		head->SetPosY(offset);
 
-		body.bodyBlocks.push_back(std::make_unique<Block>());
-		head = body.UpdateHead(std::move(head)); //TODO try changing that
+		// this was the first approach
+		// body.bodyBlocks.push_back(std::make_unique<Block>());
+		// head = body.UpdateHead(std::move(head));
+
+		body.bodyBlocks.push_back(head); // this is the more straightforward approach
+
 		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(offset + tileSize, offset)));
 		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(offset, offset)));
 
@@ -82,7 +91,10 @@ public:
 				break;
 			}
 
-			head = keyboardHandler.HandleKeyboard(std::move(head));
+			// head = keyboardHandler.HandleKeyboard(std::move(head));
+
+			head = keyboardHandler.HandleKeyboard(head);
+
 
 			if(IsKeyDown(KEY_SPACE)) {
 				break;
@@ -94,7 +106,8 @@ public:
 
 				head->Move();
 
-				head = body.UpdateHead(std::move(head));
+				// head = body.UpdateHead(std::move(head));
+				body.bodyBlocks[0] = head;
 			}
 
 			if(body.CollisionCheck()) {

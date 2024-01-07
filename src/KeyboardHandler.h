@@ -9,7 +9,8 @@
 class KeyboardHandler
 {
 public:
-	std::unique_ptr<Head> HandleKeyboard(std::unique_ptr<Head> head) {
+	// std::unique_ptr<Head> HandleKeyboard(std::unique_ptr<Head> head) {
+	std::shared_ptr<Head> HandleKeyboard(std::shared_ptr<Head> head) {
 		int restX, restY;
 
 		restX = head->GetPosX() % head->bodySize;
