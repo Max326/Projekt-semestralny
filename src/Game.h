@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "Body.h"
-#include "Food.h"
 #include "Head.h"
 #include "KeyboardHandler.h"
 #include "RaylibUtils.h"
@@ -28,7 +27,7 @@ public:
 		std::unique_ptr<Head> head = std::make_unique<Head>();
 
 		KeyboardHandler keyboardHandler;
-		Food food;
+		Block food;
 
 		Body body;
 
@@ -56,10 +55,22 @@ public:
 			BeginDrawing();
 			ClearBackground(LIME);
 
-			if(head->GetPosX() == food.GetPosX() && head->GetPosY() == food.GetPosY()) {
+			// for(int i = 0; i < body.bodyBlocks.size(); i++) {
+			// 	if(body.bodyBlocks[i]->GetPosX() == food.GetPosX() && body.bodyBlocks[i]->GetPosY() == food.GetPosY()) {
+			// 		UpdateFood(food, tileSize, screenCols, screenRows);
+			// 		body.ElongateSnake();
+			// 	}
+			// }
+
+			if (body.FoodEaten(food)){
 				UpdateFood(food, tileSize, screenCols, screenRows);
 				body.ElongateSnake();
 			}
+
+			// if(head->GetPosX() == food.GetPosX() && head->GetPosY() == food.GetPosY()) {
+			// 	UpdateFood(food, tileSize, screenCols, screenRows);
+			// 	body.ElongateSnake();
+			// }
 
 			DrawSquare(food.GetPosX(), food.GetPosY(), tileSize, RED);
 			// std::cout << "foodposx: " << food.GetPosX() << " foodposy: " << food.GetPosY() << "\n";
@@ -117,7 +128,7 @@ public:
 		CloseWindow();
 	}
 
-	void UpdateFood(Food &food, const int tile, const int cols, const int rows) {
+	void UpdateFood(Block &food, const int tile, const int cols, const int rows) {
 		food.SetPosX(GetRandomValue(0, cols - 1) * tile);
 		food.SetPosY(GetRandomValue(0, rows - 1) * tile);
 	}

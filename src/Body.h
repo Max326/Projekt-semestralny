@@ -32,6 +32,16 @@ public:
 		}
 	}
 
+	bool FoodEaten(Block food) {
+		for(int i = 0; i < bodyBlocks.size(); i++) {
+			if(bodyBlocks[i]->GetPosX() == food.GetPosX() && bodyBlocks[i]->GetPosY() == food.GetPosY()) {
+				std::cout<< "omnomnom\n";
+				return true;
+			}
+		}
+		return false;
+	}
+
 	// void ElongateSnake() {
 	// 	if(!bodyBlocks.empty()) {
 	// 		const Block &lastBlock = *(bodyBlocks.back());
@@ -43,10 +53,10 @@ public:
 	// }
 
 	void ElongateSnake() {
-	    if (!bodyBlocks.empty()) {
-	        const auto& lastBlock = bodyBlocks.back();
-	        bodyBlocks.push_back(std::make_shared<Block>(*lastBlock));
-	    }
+		if(!bodyBlocks.empty()) {
+			const auto &lastBlock = bodyBlocks.back();
+			bodyBlocks.push_back(std::make_shared<Block>(*lastBlock));
+		}
 	}
 
 	std::unique_ptr<Head> UpdateHead(std::unique_ptr<Head> head) {
