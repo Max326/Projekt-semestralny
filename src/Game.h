@@ -55,22 +55,10 @@ public:
 			BeginDrawing();
 			ClearBackground(LIME);
 
-			// for(int i = 0; i < body.bodyBlocks.size(); i++) {
-			// 	if(body.bodyBlocks[i]->GetPosX() == food.GetPosX() && body.bodyBlocks[i]->GetPosY() == food.GetPosY()) {
-			// 		UpdateFood(food, tileSize, screenCols, screenRows);
-			// 		body.ElongateSnake();
-			// 	}
-			// }
-
 			if (body.FoodEaten(food)){
 				UpdateFood(food, tileSize, screenCols, screenRows);
 				body.ElongateSnake();
 			}
-
-			// if(head->GetPosX() == food.GetPosX() && head->GetPosY() == food.GetPosY()) {
-			// 	UpdateFood(food, tileSize, screenCols, screenRows);
-			// 	body.ElongateSnake();
-			// }
 
 			DrawSquare(food.GetPosX(), food.GetPosY(), tileSize, RED);
 			// std::cout << "foodposx: " << food.GetPosX() << " foodposy: " << food.GetPosY() << "\n";
