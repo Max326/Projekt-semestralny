@@ -28,6 +28,8 @@ public:
 	double frameTime = 0.1;
 	double lastUpdateTime;
 
+	int score = 0;
+
 public:
 	void Start() {	// TODO std::visit
 		std::unique_ptr<Head> head = std::make_unique<Head>();
@@ -60,11 +62,19 @@ public:
 			BeginDrawing();
 			ClearBackground(LIME);
 
+			DrawRectangle(0, 0, 2 * offset + screenWidth, offset, DARKBLUE);
+			DrawRectangle(0, offset + screenHeight, 2 * offset + screenWidth, offset, DARKBLUE);
+			DrawRectangle(0, 0, offset, 2 * offset + screenHeight, DARKBLUE);
+			DrawRectangle(offset + screenWidth, 0, offset, 2 * offset + screenHeight, DARKBLUE);
+
 			DrawRectangleLinesEx(Rectangle {float(offset - 5), float(offset - 5), float(screenWidth + 10), float(screenHeight + 10)}, 5, DARKGREEN);  // frame
+			DrawText("Snake game", offset + 2*tileSize, tileSize, tileSize * 2, SKYBLUE);
+			DrawText(TextFormat("%i", score), offset + (screenCols/2)*tileSize, offset + screenHeight + tileSize, tileSize * 2, SKYBLUE);
 
 			if(body.FoodEaten(food)) {
 				UpdateFood(food);
 				body.ElongateSnake();
+				++score;
 			}
 
 			DrawSquare(food.GetPosX(), food.GetPosY(), tileSize, RED);
