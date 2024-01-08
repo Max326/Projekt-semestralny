@@ -38,31 +38,12 @@ public:
 		return false;
 	}
 
-	// void ElongateSnake() {
-	// 	if(!bodyBlocks.empty()) {
-	// 		const Block &lastBlock = *(bodyBlocks.back());
-
-	// 		std::unique_ptr<Block> newBlock = std::make_unique<Block>(lastBlock);
-
-	// 		bodyBlocks.push_back(std::move(newBlock));
-	// 	}
-	// }
-
-	void ElongateSnake() { //TODO check this
+	void ElongateSnake() {	// TODO check this
 		if(!bodyBlocks.empty()) {
 			const auto &lastBlock = bodyBlocks.back();
 			bodyBlocks.push_back(std::make_shared<Block>(*lastBlock));
 		}
 	}
-
-	// std::unique_ptr<Head> UpdateHead(std::unique_ptr<Head> head) { //TODO maybe try inserting the head into the vector
-	// 	if(!bodyBlocks.empty()) {
-	// 		bodyBlocks[0]->SetPosX(head->GetPosX());
-	// 		bodyBlocks[0]->SetPosY(head->GetPosY());
-	// 	}
-
-	// 	return std::move(head);
-	// }
 
 	// std::unique_ptr<Head> UpdateHead(std::unique_ptr<Head> head) { //TODO maybe try inserting the head into the vector
 	// 	if(!bodyBlocks.empty()) {

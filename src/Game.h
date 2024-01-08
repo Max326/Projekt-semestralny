@@ -32,11 +32,12 @@ public:
 
 public:
 	void Start() {	// TODO std::visit
+					// TODO factory?
 		//initial setup done here
 
 		// first approach for the head object
 		// std::unique_ptr<Head> head = std::make_unique<Head>();
-		
+
 		// second approach
 		std::shared_ptr<Head> head = std::make_shared<Head>();
 
