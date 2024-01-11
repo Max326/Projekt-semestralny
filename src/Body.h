@@ -68,4 +68,8 @@ public:
 		}
 		return false;
 	}
+
+    std::shared_ptr<Block> operator()(size_t n){
+        return bodyBlocks[n];
+    }
 };

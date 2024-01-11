@@ -14,9 +14,9 @@ class Game
 {
 public:
 	// settings
-	const int tileSize = 30; // this defines the size of the window (it scales with this)
+	const int tileSize = 30;  // this defines the size of the window (it scales with this)
 
-	const int screenCols = 15; 
+	const int screenCols = 15;
 	const int screenRows = 15;
 
 	int offsetTiles = 4;
@@ -31,9 +31,9 @@ public:
 	int score = 0;
 
 public:
-	void Start() {	// TODO std::visit
+	void Start() {	// TODO std::visit?
 					// TODO factory?
-		//initial setup done here
+		// initial setup done here
 
 		// first approach for the head object
 		// std::unique_ptr<Head> head = std::make_unique<Head>();
@@ -54,7 +54,7 @@ public:
 		// body.bodyBlocks.push_back(std::make_unique<Block>());
 		// head = body.UpdateHead(std::move(head));
 
-		body.bodyBlocks.push_back(head); // this is the more straightforward approach
+		body.bodyBlocks.push_back(head);  // this is the more straightforward approach
 
 		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(offset + tileSize, offset)));
 		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(offset, offset)));
@@ -69,7 +69,7 @@ public:
 
 		UpdateFood(food);
 
-		while(WindowShouldClose() == false) {
+		while(WindowShouldClose() == false && InsideBoundaries(head)) {
 			BeginDrawing();
 
 			DrawGUI();
@@ -83,19 +83,7 @@ public:
 			DrawSquare(food.GetPosX(), food.GetPosY(), tileSize, RED);
 			// std::cout << "foodposx: " << food.GetPosX() << " foodposy: " << food.GetPosY() << "\n";
 
-			if(head->GetPosX() > offset + screenWidth - tileSize || head->GetPosX() < offset - tileSize / 4) {
-				std::cout << "end of field x" << std::endl;
-				break;
-			}
-			if(head->GetPosY() > offset + screenHeight - tileSize || head->GetPosY() < offset - tileSize / 4) {
-				std::cout << "end of field y" << std::endl;
-				break;
-			}
-
-			// head = keyboardHandler.HandleKeyboard(std::move(head));
-
 			head = keyboardHandler.HandleKeyboard(head);
-
 
 			if(IsKeyDown(KEY_SPACE)) {
 				break;
@@ -108,7 +96,7 @@ public:
 				head->Move();
 
 				// head = body.UpdateHead(std::move(head));
-				body.bodyBlocks[0] = head;
+				body(0) = head;
 			}
 
 			if(body.CollisionCheck()) {
@@ -129,6 +117,18 @@ public:
 		}
 
 		CloseWindow();
+	}
+
+	bool InsideBoundaries(std::shared_ptr<Head> head) {
+		if(head->GetPosX() > offset + screenWidth - tileSize || head->GetPosX() < offset - tileSize / 4) {
+			std::cout << "end of field x" << std::endl;
+			return false;
+		}
+		if(head->GetPosY() > offset + screenHeight - tileSize || head->GetPosY() < offset - tileSize / 4) {
+			std::cout << "end of field y" << std::endl;
+			return false;
+		}
+        return true;
 	}
 
 	void DrawGUI() {
