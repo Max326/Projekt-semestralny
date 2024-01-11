@@ -54,10 +54,10 @@ public:
 		// body.bodyBlocks.push_back(std::make_unique<Block>());
 		// head = body.UpdateHead(std::move(head));
 
-		body.bodyBlocks.push_back(head);  // this is the more straightforward approach
+		body.UpdateHead(head); // or body(0) = head;
 
-		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(offset + tileSize, offset)));
-		body.bodyBlocks.push_back(std::make_unique<Block>(Vector2(offset, offset)));
+		body.ElongateSnakePrecisely(offset+tileSize, offset);
+		body.ElongateSnakePrecisely(offset, offset);
 
 		head->SetSpeed(tileSize);
 

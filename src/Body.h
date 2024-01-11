@@ -11,7 +11,7 @@
 
 class Body : public Block
 {
-public:
+private:
 	std::vector<std::shared_ptr<Block>> bodyBlocks;
 
 public:
@@ -45,14 +45,14 @@ public:
 		}
 	}
 
-	// std::unique_ptr<Head> UpdateHead(std::unique_ptr<Head> head) { //TODO maybe try inserting the head into the vector
-	// 	if(!bodyBlocks.empty()) {
-	// 		bodyBlocks[0]->SetPosX(head->GetPosX());
-	// 		bodyBlocks[0]->SetPosY(head->GetPosY());
-	// 	}
+	void ElongateSnakePrecisely(float x, float y) {
+		std::shared_ptr<Block> newBlock = std::make_shared<Block>(Vector2 {x, y});
+		bodyBlocks.push_back(newBlock);
+	}
 
-	// 	return std::move(head);
-	// }
+	void UpdateHead(std::shared_ptr<Block> head) { 
+		bodyBlocks.push_back(head);
+	}
 
 	void DrawSnake(const int tileSize) {
 		for(auto it = bodyBlocks.begin(); it != bodyBlocks.end(); ++it) {
@@ -69,7 +69,7 @@ public:
 		return false;
 	}
 
-    std::shared_ptr<Block> operator()(size_t n){
-        return bodyBlocks[n];
-    }
+	std::shared_ptr<Block> operator()(size_t n) {
+		return bodyBlocks[n];
+	}
 };
