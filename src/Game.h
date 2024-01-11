@@ -31,10 +31,7 @@ public:
 	int score = 0;
 
 public:
-	void Start() {	// TODO std::visit?
-					// TODO factory?
-		// initial setup done here
-
+	void Start() {
 		// first approach for the head object
 		// std::unique_ptr<Head> head = std::make_unique<Head>();
 
@@ -54,9 +51,9 @@ public:
 		// body.bodyBlocks.push_back(std::make_unique<Block>());
 		// head = body.UpdateHead(std::move(head));
 
-		body.UpdateHead(head); // or body(0) = head;
+		body.UpdateHead(head);	// or body(0) = head;
 
-		body.ElongateSnakePrecisely(offset+tileSize, offset);
+		body.ElongateSnakePrecisely(offset + tileSize, offset);
 		body.ElongateSnakePrecisely(offset, offset);
 
 		head->SetSpeed(tileSize);
@@ -70,6 +67,9 @@ public:
 		UpdateFood(food);
 
 		while(WindowShouldClose() == false && InsideBoundaries(head)) {
+			if(IsKeyDown(KEY_SPACE)) {
+				break;
+			}
 			BeginDrawing();
 
 			DrawGUI();
@@ -80,14 +80,9 @@ public:
 				++score;
 			}
 
-			DrawSquare(food.GetPosX(), food.GetPosY(), tileSize, RED);
-			// std::cout << "foodposx: " << food.GetPosX() << " foodposy: " << food.GetPosY() << "\n";
+			DrawFood(food);
 
 			head = keyboardHandler.HandleKeyboard(head);
-
-			if(IsKeyDown(KEY_SPACE)) {
-				break;
-			}
 
 			if(eventTriggered(frameTime)) {
 				head->ResetTurn();
@@ -106,12 +101,7 @@ public:
 
 			body.DrawSnake(tileSize);
 
-			// grid
-			// for(int i = 0; i < screenCols; i++) {
-			// 	for(int j = 0; j < screenRows; j++) {
-			// 		DrawRectangleLines(i * tileSize, j * tileSize, tileSize, tileSize, GRAY);
-			// 	}
-			// }
+			// DrawGrid(); // TODO to pokazac
 
 			EndDrawing();
 		}
@@ -128,7 +118,15 @@ public:
 			std::cout << "end of field y" << std::endl;
 			return false;
 		}
-        return true;
+		return true;
+	}
+
+	void DrawGrid() {
+		for(int i = 0; i < screenCols; i++) {
+			for(int j = 0; j < screenRows; j++) {
+				DrawRectangleLines(offset + i * tileSize, offset + j * tileSize, tileSize, tileSize, BROWN);
+			}
+		}
 	}
 
 	void DrawGUI() {
@@ -145,6 +143,10 @@ public:
 	void UpdateFood(Block &food) {
 		food.SetPosX(GetRandomValue(offsetTiles, offsetTiles + screenCols - 1) * tileSize);
 		food.SetPosY(GetRandomValue(offsetTiles, offsetTiles + screenRows - 1) * tileSize);
+	}
+
+	void DrawFood(const Block &food) {
+		DrawSquare(food.GetPosX(), food.GetPosY(), tileSize, RED);
 	}
 
 	bool eventTriggered(double interval) {

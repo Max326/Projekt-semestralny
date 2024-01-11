@@ -51,7 +51,10 @@ public:
 	}
 
 	void UpdateHead(std::shared_ptr<Block> head) { 
-		bodyBlocks.push_back(head);
+		if (bodyBlocks.size()<1){
+			bodyBlocks.push_back(std::make_shared<Block>());
+		}
+		bodyBlocks[0] = head;
 	}
 
 	void DrawSnake(const int tileSize) {
@@ -70,6 +73,9 @@ public:
 	}
 
 	std::shared_ptr<Block> operator()(size_t n) {
+		if (bodyBlocks.size()<1){
+			bodyBlocks.push_back(std::make_shared<Block>());
+		}
 		return bodyBlocks[n];
 	}
 };
