@@ -10,14 +10,14 @@
 #include "KeyboardHandler.h"
 #include "RaylibUtils.h"
 
-class Game
+class Game // TODO AI
 {
 public:
 	// settings
-	const int tileSize = 30;  // this defines the size of the window (it scales with this)
+	const int tileSize = 10;  // this defines the size of the window (it scales with this)
 
-	const int screenCols = 15;
-	const int screenRows = 15;
+	const int screenCols = 100;
+	const int screenRows = 4;
 
 	int offsetTiles = 4;
 	int offset = offsetTiles * tileSize;  // for scalability
@@ -25,7 +25,7 @@ public:
 	const int screenWidth = tileSize * screenCols;
 	const int screenHeight = tileSize * screenRows;
 
-	double frameTime = 0.1;
+	double frameTime = 0.06;
 	double lastUpdateTime;
 
 	int score = 0;
